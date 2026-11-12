@@ -12,7 +12,6 @@ public class Baralho : MonoBehaviour
     [SerializeField] private List<CartaDaCena> bancoDeCartasSelecionadas = new List<CartaDaCena>();
     [SerializeField] private List<CartaOriginal> dadosTemp = new List<CartaOriginal>();
 
-
     [SerializeField] UICard uiPrefab;
     [SerializeField] Transform uiParent;
 
@@ -25,7 +24,6 @@ public class Baralho : MonoBehaviour
     public int numeroAleatorio;
     public Transform baralhoTransform;
 
-
     public void Awake()
     {
         salvaJogoPC = GetComponent<SalvaJogoPC>();
@@ -36,14 +34,14 @@ public class Baralho : MonoBehaviour
     public void FiltraCartas()
     {
         SalvaEscolhaPersonagem salvaEscolhaPersonagem = salvaJogoPC.PersonagemSalvo();
-        Debug.Log($"Personagem escolhido : {salvaEscolhaPersonagem.GetNomePersonagemEscolhido()}");
+        //Debug.Log($"Personagem escolhido : {salvaEscolhaPersonagem.GetNomePersonagemEscolhido()}");
 
         for (int i = 0; i < 12; i++)
         {
             if (cenaTemp[i].dados.especieSelecionada == salvaEscolhaPersonagem.GetEspecieDominante() || cenaTemp[i].dados.especieSelecionada == salvaEscolhaPersonagem.GetEspecieRecessiva())
             {
-                Debug.Log($"Especie da Carta : {cenaTemp[i].dados.especieSelecionada}");
-                Debug.Log($"Especie Dominante : {salvaEscolhaPersonagem.GetEspecieDominante()} e Especie Recessiva : {salvaEscolhaPersonagem.GetEspecieRecessiva()}");
+                //Debug.Log($"Especie da Carta : {cenaTemp[i].dados.especieSelecionada}");
+                //Debug.Log($"Especie Dominante : {salvaEscolhaPersonagem.GetEspecieDominante()} e Especie Recessiva : {salvaEscolhaPersonagem.GetEspecieRecessiva()}");
 
                 bancoDeCartasSelecionadas.Add(cenaTemp[i]);
                
@@ -66,21 +64,6 @@ public class Baralho : MonoBehaviour
        );
 
         cartaClone.tag = "Carta Jogador";
-
-        /*
-        CartaDaCena cartaClone = Instantiate(
-           cenaTemp[_numeroSortiado],
-           baralhoTransform,
-           false
-
-       );
-        */
-
-        /*
-        CartaRuntime cartaRuntime = new CartaRuntime();
-        cartaRuntime.cartaOriginal = dadosTemp[_numeroSortiado];
-        cartaRuntime.Inicializar(bancoCartas.contaID);
-        */
 
         CartaRuntime cartaRuntime = new CartaRuntime();
         cartaRuntime.cartaOriginal = bancoDeCartasSelecionadas[numeroAleatorio].cartaBase; ; 

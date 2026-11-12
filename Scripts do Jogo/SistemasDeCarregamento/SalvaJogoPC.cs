@@ -112,7 +112,7 @@ public class SalvaJogoPC : MonoBehaviour
 
             arquivo.Close();
 
-            Debug.Log("Personagem Escolhido Carregado");
+            //Debug.Log("Personagem Escolhido Carregado");
 
             return personagemEscolhido;
         }
@@ -136,7 +136,7 @@ public class SalvaJogoPC : MonoBehaviour
 
             arquivo.Close();
 
-            Debug.Log("Oponente Carregado");
+            //Debug.Log("Oponente Carregado");
 
             return oponenteEscolhido;
         }

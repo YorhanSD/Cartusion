@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: "Malfeitor Gal\xE1tico"
-  vida: 50
-  vidaMaxima: 50
+  nomeAtaqueSelecionado: 
+  vida: 70
+  vidaMaxima: 70
   ataque: 60
-  couraca: 20
-  couracaMaxima: 20
+  couracaAtual: 30
+  couracaMaxima: 30
   reacao: 40
-  lucidez: 30
+  ataqueSelecionado_ID: 0

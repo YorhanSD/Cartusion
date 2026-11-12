@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Periculoso
-  vida: 40
-  vidaMaxima: 40
+  nomeAtaqueSelecionado: 
+  vida: 60
+  vidaMaxima: 60
   ataque: 50
-  couraca: 60
-  couracaMaxima: 60
-  reacao: 20
-  lucidez: 30
+  couracaAtual: 40
+  couracaMaxima: 40
+  reacao: 50
+  ataqueSelecionado_ID: 0

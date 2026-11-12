@@ -10,6 +10,8 @@ public class UICard : MonoBehaviour
 
     public string nomeUI;
 
+    public string nomeAtaqueSelecionadoUI;
+
     public Slider barraCouraca;
 
     public Slider barraVida;
@@ -38,12 +40,14 @@ public class UICard : MonoBehaviour
 
     public TextMeshProUGUI reacaoTMPRO;
 
-    public TextMeshProUGUI lucidezTMPRO;
+    public TextMeshProUGUI ataqueSelecionadoTMPRO;
 
     public CartaRuntime cartaRuntime;
 
     public void AtualizarUI(CartaRuntime _carta)
     {
+        nomeAtaqueSelecionadoUI = _carta.nomeAtaqueSelecionado;
+
         barraCouraca.value = _carta.couracaAtual;
         barraCouraca.maxValue = _carta.couracaMaxima;
 
@@ -68,13 +72,13 @@ public class UICard : MonoBehaviour
             Debug.Log(this.gameObject.name + " tem componentes nulos");
         }
 
-        if (nomeTMPRO != null && ataqueTMPRO != null && couracaAtualTMPRO != null && reacaoTMPRO != null && lucidezTMPRO != null)
+        if (nomeTMPRO != null && ataqueTMPRO != null && couracaAtualTMPRO != null && reacaoTMPRO != null && ataqueSelecionadoTMPRO != null)
         {
             nomeTMPRO.text = _carta.nome;
             ataqueTMPRO.text = $"AT {_carta.ataqueAtual.ToString()}";
-            couracaAtualTMPRO.text = $"CO {_carta.couracaAtual.ToString()}";
+            couracaAtualTMPRO.text = $"{_carta.couracaAtual.ToString()}";
             reacaoTMPRO.text = $"RE {_carta.reacao.ToString()}";
-            lucidezTMPRO.text = $"LU {_carta.lucidez.ToString()}";
+            ataqueSelecionadoTMPRO.text = $"{_carta.nomeAtaqueSelecionado.ToString()}";
         }
         else
         {

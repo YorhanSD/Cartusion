@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Velociraptor
-  vida: 50
-  vidaMaxima: 50
+  nomeAtaqueSelecionado: 
+  vida: 60
+  vidaMaxima: 60
   ataque: 60
-  couraca: 10
-  couracaMaxima: 10
-  reacao: 40
-  lucidez: 40
+  couracaAtual: 20
+  couracaMaxima: 20
+  reacao: 60
+  ataqueSelecionado_ID: 0

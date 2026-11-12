@@ -11,6 +11,7 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     public GameObject resetaPosicao;
     public CartaDaCena cartaDaCena;
 
+    AtaqueCartasControle ataqueCartasControle;
     SistemaCombate sistemaCombate;
     TrocaLugar trocaLugar;
     Baralho baralho;
@@ -32,6 +33,7 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     {
         //NÃO PODEMOS USAR FINDOBJECTOFTYPE PARA OBJETOS QUE SERÃO INSTANCIADOS
 
+        ataqueCartasControle = FindObjectOfType<AtaqueCartasControle>();
         entraESaiCartas = FindObjectOfType<EntraESaiCartas>();
         sistemaCombate = FindObjectOfType<SistemaCombate>();
         baralho = FindObjectOfType<Baralho>();
@@ -76,6 +78,8 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         SetSelecinouCarta(true);
 
         entraESaiCartas.SetVerificaSeSoltouCarta(GetSoltouCarta());
+        ataqueCartasControle.RecebeInformacoesDaCarta(cartaDaCena);
+        ataqueCartasControle.TelaAtaques();
     }
    
     public void OnEndDrag(PointerEventData eventData)
@@ -87,11 +91,6 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         SetSelecinouCarta(false);
 
         entraESaiCartas.SetVerificaSeSoltouCarta(GetSoltouCarta());
-
-        //if (cartaEncostada != null)
-        //{
-            //trocaLugar.VerificaPosicaoDasCartas(cartaEncostada, cartaDaCena);
-        //}
 
         //Debug.Log("Soltou");
     }

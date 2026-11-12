@@ -7,15 +7,18 @@ using UnityEngine.EventSystems;
 
 public class CartaDaCena : MonoBehaviour
 {
+    public List<Ataque> listaAtaque = new List<Ataque>();
+
     public int printID;
     public string printEspecie;
     public string printNome;
+    public string printNomeAtaqueSelecionado;
     public int printVidaMaxima;
     public int printVida;
     public int printAtaque;
     public int printCouraca;
     public int printReacao;
-    public int printLucidez;
+    public int printAtaqueSelecionadoID;
 
     [SerializeField] private RectTransform reactTransform;
     [SerializeField] private Canvas _canvas;
@@ -27,6 +30,10 @@ public class CartaDaCena : MonoBehaviour
     public CartaRuntime dados;
 
     public CartaOriginal cartaBase;
+
+    public CasaDaCarta casaDaCarta;
+
+    public AplicaEfeitoDoAtaque aplicaEfeitoDoAtaque;
 
     public UICard uiCarta;
 
@@ -45,6 +52,7 @@ public class CartaDaCena : MonoBehaviour
     [System.Obsolete]
     void Awake()
     {
+        aplicaEfeitoDoAtaque = GetComponent<AplicaEfeitoDoAtaque>();
         canvas = GetComponentInParent<Canvas>();
         reactTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
@@ -53,6 +61,11 @@ public class CartaDaCena : MonoBehaviour
         {
             Debug.LogError($"Canvas não encontrado para a carta {gameObject.name}");
         }
+    }
+
+    void Start()
+    {
+        casaDaCarta = GetComponent<CasaDaCarta>();
     }
 
     public void SetCartaMorreu(bool _morreu)
@@ -79,7 +92,8 @@ public class CartaDaCena : MonoBehaviour
         printAtaque = _cartaRuntime.ataqueAtual;
         printCouraca = _cartaRuntime.couracaAtual;
         printReacao = _cartaRuntime.reacao;
-        printLucidez = _cartaRuntime.lucidez;
+        printAtaqueSelecionadoID = _cartaRuntime.ataqueSelecionado_ID;
+        printNomeAtaqueSelecionado = _cartaRuntime.nomeAtaqueSelecionado;
     }
     public void SetCartaEstaAtacando(bool _atacando)
     {

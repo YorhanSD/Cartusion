@@ -57,23 +57,6 @@ public class Casa : MonoBehaviour
     {
         return posicaoCasa;
     }
-    public void SetNomeCartaOponente(string _nomeCarta)
-    {
-        nomeCartaDoOponente = _nomeCarta;
-    }
-    public string GetNomeCartaOponente()
-    {
-        return nomeCartaDoOponente;
-    }
-    public void SetNomeCartaJogador(string _nomeCarta)
-    {
-        nomeCartaDoJogador = _nomeCarta;
-    }
-    public string GetNomeCartaJogador()
-    {
-        return nomeCartaDoJogador;
-    }
-    
     public void SetCaseOcupadoOponente(bool _caseOcupado)
     {
         caseOcupadoPeloOponente = _caseOcupado;
@@ -94,6 +77,12 @@ public class Casa : MonoBehaviour
     [Obsolete]
     public void OnTriggerEnter2D(Collider2D carta)
     {
+        if (GetEstaBloqueado() == true)
+        {
+            Debug.Log("Você não pode entrar em uma casa bloqueada !");
+            return;
+        }
+
         if (!carta.CompareTag("Carta Jogador") && !carta.CompareTag("Carta Oponente"))
         {
             return;
@@ -113,8 +102,11 @@ public class Casa : MonoBehaviour
         {
             CartaDaCena _carta = carta.GetComponent<CartaDaCena>();
 
+            //entraESaiCartas.RecebeCasaPassadaAtacante(this.GetPosicaoCasa());
+
             if (_carta.GetCartaMorte() == true)
                 return;
+
             if (_carta.GetCartaEstaAtacando() == true)
                 return;
 
@@ -122,59 +114,34 @@ public class Casa : MonoBehaviour
         }
     }
 
-    [Obsolete]
     public void CartaEstaSobreACasa(CartaDaCena _cartaEntrando)
     {
-        if (_cartaEntrando.CompareTag("Carta Oponente")) //Quando uma carta do oponente entra na casa e já tem uma carta do jogador então:
+        if (_cartaEntrando.CompareTag("Carta Oponente")) 
         {
-            if (GetIDCartaOcupante() != -1 && GetCaseOcupadoJogador())
+            if (GetIDCartaOcupante() != -1 && GetCaseOcupadoJogador() == true)//Quando uma carta do oponente entra na casa e já tem uma carta do jogador então:
             {
                 _cartaEntrando.SetCartaEstaAtacando(true);
-                //combateEmAndamento = true;
-                entraESaiCartas.ProcuraCartaDentroDaCasa(this.GetIDCartaOcupante(), _cartaEntrando);
-            }
 
-            /*
-            CartaDaCena defensor = FindObjectOfType<Baralho>().deckJogador.Find(c => c.dados.ID == GetIDCartaOcupante());
-
-            if (defensor != null)
-            {
-                combateEmAndamento = true;
-                entraESaiCartas.ChamaCombate(defensor, _cartaEntrando);
+                entraESaiCartas.RecebeCasasAtuais(this.GetIDCartaOcupante(), _cartaEntrando.dados.ID);
             }
-            */
 
             if (GetCaseOcupadoJogador() == false && GetCaseOcupadoOponente() == false)
             {
-                //combateEmAndamento = false;
                 CartaEntra(_cartaEntrando, this.transform);
             }
 
         }
-        else if (_cartaEntrando.CompareTag("Carta Jogador")) //Quando uma carta do jogador entra na casa e já tem uma carta do oponente então:
+        else if (_cartaEntrando.CompareTag("Carta Jogador")) 
         {
-            if (GetIDCartaOcupante() != -1 && GetCaseOcupadoOponente())
+            if (GetIDCartaOcupante() != -1 && GetCaseOcupadoOponente() == true)//Quando uma carta do jogador entra na casa e já tem uma carta do oponente então:
             {
                 _cartaEntrando.SetCartaEstaAtacando(true);
-                //combateEmAndamento = true;
-                entraESaiCartas.ProcuraCartaDentroDaCasa(this.GetIDCartaOcupante(), _cartaEntrando);
+
+                entraESaiCartas.RecebeCasasAtuais(this.GetIDCartaOcupante(), _cartaEntrando.dados.ID);
             }
-            /*
-            CartaDaCena defensor = FindObjectOfType<Baralho_Oponente>().deckOponente.Find(c => c.dados.ID == GetIDCartaOcupante());
-
-            if (defensor != null)
-            {
-                combateEmAndamento = true;
-                entraESaiCartas.ChamaCombate(defensor, _cartaEntrando);
-            }
-            */
-
-            //CartaDaCena jogador = FindObjectOfType<Baralho>().deckJogador.Find(c => c.dados.ID == GetIDCartaOcupante());
-
+           
             if (GetCaseOcupadoJogador()) //Troca
             {
-                
-                //combateEmAndamento = false;
                 entraESaiCartas.ChamaTroca(this.GetIDCartaOcupante(), _cartaEntrando);
             }
 
@@ -182,8 +149,7 @@ public class Casa : MonoBehaviour
             {
                 if (coroutineEntrada == null)
                 {
-                    //combateEmAndamento = false;
-                    coroutineEntrada = StartCoroutine(CartaEspera(_cartaEntrando));
+                  coroutineEntrada = StartCoroutine(CartaEspera(_cartaEntrando));
                 }
             }
         }
@@ -214,14 +180,15 @@ public class Casa : MonoBehaviour
 
     public void CartaEntra(CartaDaCena _cartaEntrando, Transform _casaTransfrom)
     {
-        Debug.Log($"{_cartaEntrando.dados.nome} entrou na casa.");
-
         _cartaEntrando.SetEstaAtivada(true); // CARTA ENTROU, ENTÃO ESTÁ ATIVA
+
+        CasaDaCarta info = _cartaEntrando.casaDaCarta;
+
+        info.SetCasaAntiga(info.GetCasaAtual());
+        info.SetCasaAtual(this);
 
         if (_cartaEntrando.gameObject.CompareTag("Carta Jogador"))
         {
-            //entraESaiCartas.ChamaMapeamentoJogador(_cartaEntrando);
-
             entraESaiCartas.LiberaCasaQueEntrou(GetPosicaoCasa());
 
             SetCaseOcupadoJogador(true);
@@ -244,7 +211,6 @@ public class Casa : MonoBehaviour
 
             if (GetIDCartaOcupante() != _cartaSaindo.dados.ID)
             {
-                Debug.Log("Ignorando CartaSai. A carta não ocupa mais esta casa.");
                 return;
             }
 
@@ -268,11 +234,11 @@ public class Casa : MonoBehaviour
 
         SetIDCartaOcupante(-1);
 
-        GravaUltimoID(_cartaDestruida.dados.ID);
+        //GravaUltimoID(_cartaDestruida.dados.ID);
     }
 
     public void GravaUltimoID(int _ID)
     {
-        SetUltimoID(_ID);
+        //SetUltimoID(_ID);
     }
 }

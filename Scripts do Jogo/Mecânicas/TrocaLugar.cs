@@ -39,26 +39,13 @@ public class TrocaLugar : MonoBehaviour
 
             //casaVanguarda.CartaSai(_vanguarda);
 
-            casaVanguarda.CartaEntra(_retaguarda, casaVanguarda.transform);
+            //casaVanguarda.CartaEntra(_retaguarda, casaVanguarda.transform);
 
             //casaRetaguarda.CartaSai(_retaguarda);
 
-            casaRetaguarda.CartaEntra(_vanguarda, casaRetaguarda.transform);
+            //casaRetaguarda.CartaEntra(_vanguarda, casaRetaguarda.transform);
 
-            entraESaiCartas.SetEncostouEmOutraCarta(false);
-
-            //_retaguarda.transform.SetParent(casaVanguarda.transform, false);
-            //_retaguarda.transform.localPosition = Vector3.zero;
-
-            //_vanguarda.transform.SetParent(casaRetaguarda.transform, false);
-            //_vanguarda.transform.localPosition = Vector3.zero;
-
-            //casaRetaguarda.SetCartaOcupante(_vanguarda);
-            //casaRetaguarda.SetIDCartaOcupante(_vanguarda.dados.ID);
-
-            //casaVanguarda.SetCartaOcupante(_retaguarda);
-            //casaVanguarda.SetIDCartaOcupante(_retaguarda.dados.ID);
-
+            //entraESaiCartas.SetEncostouEmOutraCarta(false);
         }
     }
 }

@@ -268,19 +268,10 @@ public class IA_MapeamentoDeCases : MonoBehaviour
             return;
         }
 
-        /*
-        // Limpa a casa antiga
-        origem.SetIDCartaOcupante(-1);
-        origem.SetCaseOcupadoOponente(false);
-
-        // Atualiza a nova
-        destino.SetIDCartaOcupante(carta.dados.ID);
-        destino.SetCaseOcupadoOponente(true);
-        */
-
-        origem.CartaEntra(carta, destino.transform);
-
-        Debug.Log($"Carta {carta.dados.ID} saiu da casa {origem.GetPosicaoCasa()} e foi para {destino.GetPosicaoCasa()}");
+        if (carta.GetMoveuSe() == false)
+        {
+            origem.CartaEntra(carta, destino.transform);
+        }
     }
 
     public void AtaquesPossiveis(int _possicaoCase, CartaDaCena _carta)

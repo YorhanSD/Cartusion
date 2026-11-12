@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Sacerdotiza
-  vida: 40
-  vidaMaxima: 40
-  ataque: 40
-  couraca: 40
-  couracaMaxima: 40
-  reacao: 40
-  lucidez: 40
+  nomeAtaqueSelecionado: 
+  vida: 50
+  vidaMaxima: 50
+  ataque: 50
+  couracaAtual: 50
+  couracaMaxima: 50
+  reacao: 50
+  ataqueSelecionado_ID: 0

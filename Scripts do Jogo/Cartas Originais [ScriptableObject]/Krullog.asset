@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Krullog
-  vida: 50
-  vidaMaxima: 50
+  nomeAtaqueSelecionado: 
+  vida: 80
+  vidaMaxima: 80
   ataque: 20
-  couraca: 80
+  couracaAtual: 80
   couracaMaxima: 80
   reacao: 20
-  lucidez: 30
+  ataqueSelecionado_ID: 0

@@ -25,18 +25,22 @@ public class CartaOriginal: ScriptableObject
 
     public string nome;
 
+    public string nomeAtaqueSelecionado;
+
     public int vida;
 
     public int vidaMaxima;
 
     public int ataque;
 
-    public int couraca; // quando chega a 0 a criatura recebe 100 % do ataque oponente, em vez de 50 %
+    public int couracaAtual; // quando chega a 0 a criatura recebe 100 % do ataque oponente, em vez de 50 %
                         // diminui em 10 para cada ataque sofrido
     public int couracaMaxima;
 
     public int reacao;  // capacidade de dano que a criatura tem de revidar ao alvo que ataca ela.
 
-    public int lucidez; // quando chega a 0 a criatura tem 50 % de chance de errar o ataque.
-                        // diminui em 10 para cada ataque recebido
+    public int ataqueSelecionado_ID;
+    
+        //public int lucidez; // quando chega a 0 a criatura tem 50 % de chance de errar o ataque.
+    // diminui em 10 para cada ataque recebido
 }

@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Profeta
-  vida: 80
-  vidaMaxima: 80
+  nomeAtaqueSelecionado: 
+  vida: 100
+  vidaMaxima: 100
   ataque: 40
-  couraca: 30
-  couracaMaxima: 30
+  couracaAtual: 40
+  couracaMaxima: 40
   reacao: 20
-  lucidez: 50
+  ataqueSelecionado_ID: 0

@@ -16,6 +16,9 @@ public class ControlaTurnos : MonoBehaviour
     Baralho_Oponente baralhoOponente;
 
     IA_MapeamentoDeCases ia_MapeamentoDeCases;
+    AplicaEfeitosDoTurnoSeguinte aplicaEfeitosDoTurnoSeguinte;
+
+    public BancoCards bancoCartas;
 
     public GameObject telaTurnoPlayer;
     public GameObject telaturnoOponente;
@@ -30,6 +33,8 @@ public class ControlaTurnos : MonoBehaviour
 
         //Para usar o GetComponent o Script deve estar no mesmo Objeto
 
+        bancoCartas = GetComponent<BancoCards>();
+        aplicaEfeitosDoTurnoSeguinte = GetComponent<AplicaEfeitosDoTurnoSeguinte>();
         sistemaDeCombate = GetComponent<SistemaCombate>();
         iaOponente = GetComponent<IA_Oponente>();
         cronometro = GetComponent<Cronometro>();
@@ -61,6 +66,7 @@ public class ControlaTurnos : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
+
         ResetaCronometroOponente();
 
         telaturnoOponente.SetActive(false);
@@ -91,6 +97,8 @@ public class ControlaTurnos : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
+        
+
         TelaTurnoJogador(false);
 
         ResetaCronometroJogador();
@@ -104,13 +112,15 @@ public class ControlaTurnos : MonoBehaviour
 
         turnoOponente = true;
 
-        ResetaMovimentoDasCartas();
-
         ResetaUltimoIDCasas();
 
         baralhoOponente.casaReferenciaDeMaiorPosicao = 15;
 
         Cursor.visible = false;
+
+        ResetaMovimentoDasCartas();
+
+        VerificaEfeitosDosAtaques();
     }
     
     public void TurnoJogador()
@@ -122,6 +132,10 @@ public class ControlaTurnos : MonoBehaviour
         botaoPassaTurno.SetActive(true);
 
         Cursor.visible = true;
+
+        ResetaMovimentoDasCartas();
+
+        VerificaEfeitosDosAtaques();
     }
 
     public void ResetaCronometroJogador()
@@ -166,20 +180,18 @@ public class ControlaTurnos : MonoBehaviour
         }
     }
 
+    public void VerificaEfeitosDosAtaques()
+    {
+        aplicaEfeitosDoTurnoSeguinte.AplicaNocaute();
+        aplicaEfeitosDoTurnoSeguinte.AplicaVirose();
+        aplicaEfeitosDoTurnoSeguinte.AplicaQueimadura();
+        aplicaEfeitosDoTurnoSeguinte.AplicaSangramento();
+    }
     public void ResetaMovimentoDasCartas()
     {
-        foreach(CartaDaCena cartaCena in baralhoOponente.deckOponente)
+        foreach(CartaDaCena cartaCena in bancoCartas.geralCartaCenaLista)
         {
             if (cartaCena != null) 
-            {
-                cartaCena.SetMoveuSe(false);
-                cartaCena.SetPodeAtacar(true);
-            }
-        }
-
-        foreach (CartaDaCena cartaCena in baralhoJogador.deckJogador)
-        {
-            if (cartaCena != null)
             {
                 cartaCena.SetMoveuSe(false);
                 cartaCena.SetPodeAtacar(true);

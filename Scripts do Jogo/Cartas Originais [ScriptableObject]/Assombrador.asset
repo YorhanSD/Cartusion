@@ -15,10 +15,14 @@ MonoBehaviour:
   ID: 7
   funcao: 
   especie: 3
+  especieDominante: 0
+  especieRecessiva: 0
   nome: Assombrador
-  vida: 40
-  vidaMaxima: 40
-  ataque: 120
-  couraca: 0
+  nomeAtaqueSelecionado: 
+  vida: 60
+  vidaMaxima: 60
+  ataque: 140
+  couracaAtual: 0
+  couracaMaxima: 0
   reacao: 0
-  lucidez: 40
+  ataqueSelecionado_ID: 0

@@ -46,8 +46,9 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                 carta.cartaBase.especieDominante = true;
                 mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                //Média não serve, pois as cartas podem ter valores extremos
+                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
             }
             else
             {
@@ -71,8 +72,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                 carta.cartaBase.especieDominante = true;
                 mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
             }
             else
             {
@@ -84,8 +85,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
 
         guardaEspecieDominante = "Extinto";
 
-        textoEstatisticasOfensivas.text = "Pontos Ofensivos em Média: " + (resultadoDadoSecundarioOfensivo + resultadoDadoOfensivo).ToString();
-        textoEstatisticasDefensivas.text = "Pontos Defensivos em Média: " + (resultadoDadoSecundarioDefensivo + resultadoDadoDefensivo).ToString();
+        textoEstatisticasOfensivas.text = "Pontos Ofensivos Totais: " + (resultadoDadoSecundarioOfensivo + resultadoDadoOfensivo).ToString();
+        textoEstatisticasDefensivas.text = "Pontos Defensivos Totais: " + (resultadoDadoSecundarioDefensivo + resultadoDadoDefensivo).ToString();
     }
 
     public void botaoHekaib()
@@ -99,8 +100,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                 carta.cartaBase.especieDominante = true;
                 mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
             }
             else
             {
@@ -124,8 +125,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                 carta.cartaBase.especieDominante = true;
                 mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                resultadoDadoOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                resultadoDadoDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
             }
             else
             {
@@ -156,8 +157,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                         carta.cartaBase.especieRecessiva = true;
                         mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
                     }
                     else
                     {
@@ -191,8 +192,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                         carta.cartaBase.especieRecessiva = true;
                         mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
                     }
                     else
                     {
@@ -226,8 +227,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                         carta.cartaBase.especieRecessiva = true;
                         mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
                     }
                     else
                     {
@@ -261,8 +262,8 @@ public class EstatisticasDoPersonagem : MonoBehaviour
                         carta.cartaBase.especieRecessiva = true;
                         mostraCarta.LeitorDeCartasDoVisor(carta);
 
-                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao / 3;
-                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couraca / 3;
+                        resultadoDadoSecundarioOfensivo += carta.cartaBase.ataque + carta.cartaBase.reacao;
+                        resultadoDadoSecundarioDefensivo += carta.cartaBase.vidaMaxima + carta.cartaBase.couracaAtual;
                     }
                     else
                     {

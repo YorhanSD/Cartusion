@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Morto Em Combate
+  nomeAtaqueSelecionado: 
   vida: 140
   vidaMaxima: 140
   ataque: 30
-  couraca: 10
+  couracaAtual: 10
   couracaMaxima: 10
   reacao: 20
-  lucidez: 0
+  ataqueSelecionado_ID: 0

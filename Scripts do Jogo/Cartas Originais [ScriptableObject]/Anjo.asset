@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Anjo
-  vida: 60
-  vidaMaxima: 60
-  ataque: 30
-  couraca: 30
+  nomeAtaqueSelecionado: 
+  vida: 90
+  vidaMaxima: 90
+  ataque: 40
+  couracaAtual: 30
   couracaMaxima: 30
-  reacao: 20
-  lucidez: 60
+  reacao: 40
+  ataqueSelecionado_ID: 0

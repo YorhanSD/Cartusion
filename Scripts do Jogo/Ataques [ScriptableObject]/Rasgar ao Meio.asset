@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58953c9ef619759468812dcaa27f7d7e, type: 3}
+  m_Name: Rasgar ao Meio
+  m_EditorClassIdentifier: Assembly-CSharp::Ataque
+  id: 0
+  nome: Rasgar ao Meio
+  descricao: 
+  especie: Tenebroso
+  imuneReacao: 0
+  ignoraCouraca: 0
+  nocauteia: 0

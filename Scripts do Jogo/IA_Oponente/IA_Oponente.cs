@@ -11,15 +11,12 @@ public class IA_Oponente : MonoBehaviour
 
     IA_MapeamentoDeCases ia_MapeamentoDeCases;
 
-    ControlaTurnos controlaTurnos;
-
     public bool iaPodeAtacar = false;
 
     [System.Obsolete]
     public void Start()
     {
         ia_MapeamentoDeCases = GetComponent<IA_MapeamentoDeCases>();
-        controlaTurnos = GetComponent<ControlaTurnos>();
         baralhoOponente = GetComponent<Baralho_Oponente>();
     }
 

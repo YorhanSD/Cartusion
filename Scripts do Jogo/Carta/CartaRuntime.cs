@@ -7,13 +7,14 @@ public class CartaRuntime
     public int ID;
     public string especieSelecionada;
     public string nome;
+    public string nomeAtaqueSelecionado;
     public int ataqueAtual;
     public int vidaAtual;
     public int vidaMaxima;
     public int couracaAtual;
     public int couracaMaxima;
     public int reacao;
-    public int lucidez;
+    public int ataqueSelecionado_ID;
 
     public CartaDaCena cartaCena;
     public CartaOriginal cartaOriginal;
@@ -22,15 +23,17 @@ public class CartaRuntime
     public void Inicializar(int ID)
     {
         //ID vem de fora
+
         this.ID = ID;
         especieSelecionada = cartaOriginal.especie.ToString();
         nome = cartaOriginal.nome;
         ataqueAtual = cartaOriginal.ataque;
         vidaAtual = cartaOriginal.vida;
         vidaMaxima = cartaOriginal.vidaMaxima;
-        couracaAtual = cartaOriginal.couraca;
+        couracaAtual = cartaOriginal.couracaAtual;
         couracaMaxima = cartaOriginal.couracaMaxima;
         reacao = cartaOriginal.reacao;
-        lucidez = cartaOriginal.lucidez;
+        ataqueSelecionado_ID = cartaOriginal.ataqueSelecionado_ID;
+        nomeAtaqueSelecionado = cartaOriginal.nomeAtaqueSelecionado;
     }
 }

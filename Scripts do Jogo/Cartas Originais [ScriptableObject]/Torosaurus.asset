@@ -18,10 +18,11 @@ MonoBehaviour:
   especieDominante: 0
   especieRecessiva: 0
   nome: Torosaurus
-  vida: 50
-  vidaMaxima: 50
+  nomeAtaqueSelecionado: 
+  vida: 90
+  vidaMaxima: 90
   ataque: 20
-  couraca: 90
-  couracaMaxima: 90
+  couracaAtual: 70
+  couracaMaxima: 70
   reacao: 20
-  lucidez: 20
+  ataqueSelecionado_ID: 0
