@@ -20,7 +20,7 @@
 
 <br>
 
-**cada personagem pode usar qualquer dos outros tipos de criatura, desde que sejá como espécie secúndaria e diferente da espécie principal**
+**Cada personagem pode usar qualquer dos outros tipos de criatura, desde que sejá como espécie secúndaria e diferente da espécie principal.**
 
 <br>
 
