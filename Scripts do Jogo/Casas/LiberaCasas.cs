@@ -16,86 +16,99 @@ public class LiberaCasas : MonoBehaviour
         ia_MapeamentoDeCases = GetComponent<IA_MapeamentoDeCases>();
         //bloqueador = FindObjectOfType<Bloqueador>();
     }
-
-    public void BloqueiaCasas(int posicaoCasa) 
-    {
-        /*
-        for (int i = 0; i < 16; i++)
-        {
-            if (bloqueadores[i] != bloqueadores[posicaoCasa] && listaBloqueadores[i].GetDesativaBloqueador() == false) // Ativa todos os bloqueadores que não estão na posição a cima
-            {
-                listaBloqueadores[i].SetDesativaBloqueador(true);
-                ia_MapeamentoDeCases.listaCase[i].SetEstaBloqueado(true);
-                bloqueadores[i].SetActive(true);
-            }
-        }
-
-        StartCoroutine(LiberaCasas(posicaoCasa));
-        */
-    }
     public void Liberar(int posicaoCasa)
     {
         StartCoroutine(LiberaCasasBloqueadas(posicaoCasa));
+    }
+    private void DesativaBloqueador(int posicao)
+    {
+        Collider2D colisor = bloqueadores[posicao].GetComponent<Collider2D>();
+
+        if (colisor != null)
+            colisor.enabled = false;
+    }
+
+    private void AtivaBloqueador(int posicao)
+    {
+        Collider2D colisor = bloqueadores[posicao].GetComponent<Collider2D>();
+
+        if (colisor != null)
+            colisor.enabled = true;
     }
     public IEnumerator LiberaCasasBloqueadas(int posicaoCasa)
     {
         yield return new WaitForSeconds(0.5f);
 
         bloqueadores[posicaoCasa].SetActive(false);
+        //DesativaBloqueador(posicaoCasa);
 
         // Se a posição da casa for um número par então:
-        // Exemplo 6
+        // Exemplo, carta entrou na casa 12.
         // As casas liberadas são estas:
 
         if (posicaoCasa % 2 == 0)
         {
             if (posicaoCasa != 14 && posicaoCasa != 15)
             {
-                posicaoCasa += 2; //CASA 8
+                posicaoCasa += 2; //CASA 14
                 bloqueadores[posicaoCasa].SetActive(false);
+                //DesativaBloqueador(posicaoCasa);
                 ia_MapeamentoDeCases.listaCase[posicaoCasa].SetEstaBloqueado(false);
+
                 //Debug.Log($"Número da casa da direita que deve ficar livre : {posicaoCasa}");
             }
             if (posicaoCasa != 0 && posicaoCasa != 1)
             {
-                posicaoCasa -= 1; //CASA 7
+                posicaoCasa -= 1; //CASA 13
                 bloqueadores[posicaoCasa].SetActive(false);
+                //DesativaBloqueador(posicaoCasa);
                 ia_MapeamentoDeCases.listaCase[posicaoCasa].SetEstaBloqueado(false);
+
                 //Debug.Log($"Número da casa de baixo que deve ficar livre : {posicaoCasa}");
             }
             if (posicaoCasa != 0 && posicaoCasa != 1)
             {
-                posicaoCasa -= 3; //CASA 4
+                posicaoCasa -= 3; //CASA 10
                 bloqueadores[posicaoCasa].SetActive(false);
+                //DesativaBloqueador(posicaoCasa);
                 ia_MapeamentoDeCases.listaCase[posicaoCasa].SetEstaBloqueado(false);
+
                 //Debug.Log($"Número da casa da esquerda que deve ficar livre : {posicaoCasa}");
             }
         }
         else if (posicaoCasa % 2 != 0)
         {
             // Se a posição da casa é um número ímpar então:
-            // Exemplo 7
+
+            // Exemplo, carta entrou na casa 13.
+
             // As casas liberadas são estas:
 
             if (posicaoCasa != 14 && posicaoCasa != 15)
             {
-                posicaoCasa += 2; //CASA 9
+                posicaoCasa += 2; //CASA 15
                 bloqueadores[posicaoCasa].SetActive(false);
+                //DesativaBloqueador(posicaoCasa);
                 ia_MapeamentoDeCases.listaCase[posicaoCasa].SetEstaBloqueado(false);
+
                 //Debug.Log($"Número da casa da direita que deve ficar livre : {posicaoCasa}");
             }
             if (posicaoCasa != 0 && posicaoCasa != 1)
             {
-                posicaoCasa -= 3; //CASA 6
+                posicaoCasa -= 3; //CASA 12
                 bloqueadores[posicaoCasa].SetActive(false);
+                //DesativaBloqueador(posicaoCasa);
                 ia_MapeamentoDeCases.listaCase[posicaoCasa].SetEstaBloqueado(false);
+
                 //Debug.Log($"Número da casa de cima que deve ficar livre : {posicaoCasa}");
             }
             if (posicaoCasa != 0 && posicaoCasa != 1)
             {
-                posicaoCasa -= 1; //CASA 5
+                posicaoCasa -= 1; //CASA 11
                 bloqueadores[posicaoCasa].SetActive(false);
+                //DesativaBloqueador(posicaoCasa);
                 ia_MapeamentoDeCases.listaCase[posicaoCasa].SetEstaBloqueado(false);
+
                 //Debug.Log($"Número da casa da esquerda que deve ficar livre : {posicaoCasa}");
             }
         }

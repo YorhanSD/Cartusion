@@ -17,6 +17,7 @@ public class Baralho_Oponente : MonoBehaviour
     public IA_EscolheAtaque ia_escolheAtaque;
     public SalvaJogoPC salvaJogoPC;
     public BancoCards bancoCartas;
+    public BancoDeAtaques bancoDeAtaques;
 
     public Canvas canvas;
     public int numeroAleatorio;
@@ -28,6 +29,7 @@ public class Baralho_Oponente : MonoBehaviour
         ia_escolheAtaque = GetComponent<IA_EscolheAtaque>();
         salvaJogoPC = GetComponent<SalvaJogoPC>();
         bancoCartas = GetComponent<BancoCards>();
+        bancoDeAtaques = GetComponent<BancoDeAtaques>();
 
         FiltraCartas();
     }
@@ -81,6 +83,14 @@ public class Baralho_Oponente : MonoBehaviour
         bancoCartas.geralCartaCenaLista.Add(cartaClone);
         bancoCartas.geralCartaRuntimeLista.Add(cartaRuntime);
         deckOponente.Add(cartaClone);
+
+        for (int i = 0; i < 2; i++)
+        {
+            bancoDeAtaques.geralAtaqueLista.Add(cartaClone.listaAtaque[i]);
+            //Debug.Log("Ataque adicionado com sucesso !");
+            //Debug.Log("ID do ataque : " + cartaClone.listaAtaque[i].id);
+            //Debug.Log("Nome do ataque : " + cartaClone.listaAtaque[i].nome);
+        }
 
         cartaClone.transform.localPosition = Vector3.zero;
 

@@ -33,21 +33,13 @@ public class CartaDaCena : MonoBehaviour
 
     public CasaDaCarta casaDaCarta;
 
+    public EstadoDasCartas estado;
+
     public AplicaEfeitoDoAtaque aplicaEfeitoDoAtaque;
 
     public UICard uiCarta;
 
     [SerializeField] private Transform uiParent;
-
-    [SerializeField] private bool cartaAtiva = false;
-
-    [SerializeField] private bool podeAtacar = true;
-     
-    [SerializeField] private bool moveuSe = false;
-
-    [SerializeField] private bool atacando = false;
-
-    [SerializeField] private bool morreu = false;
 
     [System.Obsolete]
     void Awake()
@@ -68,16 +60,6 @@ public class CartaDaCena : MonoBehaviour
         casaDaCarta = GetComponent<CasaDaCarta>();
     }
 
-    public void SetCartaMorreu(bool _morreu)
-    {
-        morreu = _morreu;
-    }
-
-    public bool GetCartaMorte()
-    {
-        return morreu;
-    }
-
     public void GravaUI(CartaRuntime _cartaRuntime)
     {
         uiCarta.AtualizarUI(_cartaRuntime);
@@ -94,37 +76,5 @@ public class CartaDaCena : MonoBehaviour
         printReacao = _cartaRuntime.reacao;
         printAtaqueSelecionadoID = _cartaRuntime.ataqueSelecionado_ID;
         printNomeAtaqueSelecionado = _cartaRuntime.nomeAtaqueSelecionado;
-    }
-    public void SetCartaEstaAtacando(bool _atacando)
-    {
-        atacando = _atacando;
-    }
-    public bool GetCartaEstaAtacando()
-    {
-        return atacando;
-    }
-    public void SetPodeAtacar(bool _atacou)
-    {
-        podeAtacar = _atacou;
-    }
-    public bool GetPodeAtacar()
-    {
-        return podeAtacar;
-    }
-    public void SetEstaAtivada(bool _ativada)
-    {
-        cartaAtiva = _ativada;
-    }
-    public bool GetEstaAtivada()
-    {
-        return cartaAtiva;
-    }
-    public bool GetMoveuSe()
-    {
-        return moveuSe;
-    }
-    public void SetMoveuSe(bool _moveuSe)
-    {
-        moveuSe = _moveuSe;
     }
 }

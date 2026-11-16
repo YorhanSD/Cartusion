@@ -19,10 +19,10 @@ MonoBehaviour:
   especieRecessiva: 0
   nome: Giganotosaurus
   nomeAtaqueSelecionado: 
-  vida: 100
-  vidaMaxima: 100
-  ataque: 40
-  couracaAtual: 20
-  couracaMaxima: 20
+  vida: 80
+  vidaMaxima: 80
+  ataque: 50
+  couracaAtual: 30
+  couracaMaxima: 30
   reacao: 40
   ataqueSelecionado_ID: 0

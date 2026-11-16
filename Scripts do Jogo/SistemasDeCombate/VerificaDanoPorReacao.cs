@@ -13,13 +13,13 @@ public class VerificaDanoPorReacao : MonoBehaviour
         sistemaCombate = GetComponent<SistemaCombate>();
     }
 
-    public bool AtaqueDaCartaPermiteDanoPorReacao(CartaDaCena _ataca)
+    public bool AtaqueDaCartaPermiteDanoPorReacao(CartaDaCena _cartaAtacante)
     {
-        foreach (Ataque ataque in _ataca.listaAtaque)
+        foreach (Ataque ataque in _cartaAtacante.listaAtaque)
         {
-            if(ataque.GetAtaqueAtivado() == true && ataque.imuneReacao == true)
+            if(ataque.GetAtaqueAtivado() == true && _cartaAtacante.aplicaEfeitoDoAtaque.GetImuneReacao() == true)
             {
-                Debug.Log($"A carta : {_ataca.dados.nome} com seu Ataque: {ataque.nome} possuí proteção contra a reação da carta adversária");
+                Debug.Log($"A carta : {_cartaAtacante.dados.nome} com seu Ataque: {ataque.nome} possuí proteção contra a reação da carta adversária");
                 return false;
             }
         }
@@ -31,12 +31,7 @@ public class VerificaDanoPorReacao : MonoBehaviour
     {
         AtaqueDaCartaPermiteDanoPorReacao(_ataca);
 
-        if(_ataca.dados.couracaAtual > 0)
-        {
-            return false;
-        }
-
-        if (_ataca.dados.vidaAtual > 0)
+        if (_ataca.dados.vidaAtual > 0 && _ataca.dados.couracaAtual <= 0)
         {
             _ataca.dados.vidaAtual -= _defende.dados.reacao;
 
@@ -44,61 +39,15 @@ public class VerificaDanoPorReacao : MonoBehaviour
 
             controleDeDano.CriaPainelEfeitoDoAtaque(_ataca.gameObject.transform, "Reação");
 
-            _ataca.uiCarta.AtualizarUI(_ataca.dados);
+            if (_ataca.dados.vidaAtual <= 0 && _ataca != null)
+            {
+                sistemaCombate.VerificaMortePorReacao(_ataca);
+            }
 
-            sistemaCombate.VerificaMorte(_ataca, _defende);
+            _ataca.uiCarta.AtualizarUI(_ataca.dados);
 
             Debug.Log($"Atacante: {_ataca.dados.nome} sofre: {_defende.dados.reacao} de Dano de Reação da Carta: {_defende.dados.nome}");
         }
-
         return true;
-
-        /*
-        if (_ataca.dados.couracaAtual > 0)
-        {
-            _ataca.dados.couracaAtual -= 10;
-
-            controleDeDano.CriaPainelDano(_ataca.gameObject.transform, 10);
-
-            _ataca.uiCarta.AtualizarUI(_ataca.dados);
-
-            //casaTemporaria.ConfereOResultadoDaBatalha(_defende, _ataca);
-        }
-        else
-        {
-            
-
-            //casaTemporaria.ConfereOResultadoDaBatalha(_defende, _ataca);
-            /*
-            _ataca.uiCarta.AtualizarUI(_ataca.dados);
-
-            if (_ataca.dados.vidaAtual <= 0)
-            {
-                _ataca.SetCartaMorreu(true);
-
-                foreach (Casa casa in ia_MapeamentoDeCases.listaCase)
-                {
-                    if (casa.GetIDCartaOcupante() == _ataca.dados.ID)
-                    {
-                        casa.DesocuparCasa(_ataca);
-
-                        casa.CartaEntra(_defende, casa.transform);
-
-                        break;
-                    }
-                }
-
-                // REMOVE defensor
-                bancoCartas.geralCartaRuntimeLista.Remove(_ataca.dados);
-                bancoCartas.geralCartaCenaLista.Remove(_ataca);
-
-                Destroy(_ataca.gameObject);
-           
-        }
-        */
-
-
-
     }
-
 }

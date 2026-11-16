@@ -4,22 +4,20 @@ using UnityEngine;
 public class VerificaCouraca : MonoBehaviour
 {
     public ControleDeDano controleDeDano;
-    VerificaDanoPorReacao verificaDanoPorReacao;
     void Start()
     {
         controleDeDano = GetComponent<ControleDeDano>();
-        verificaDanoPorReacao = GetComponent<VerificaDanoPorReacao>();
     }
     
-    public void AplicaDanoACouraca(CartaDaCena _ataca, CartaDaCena _defende)
+    public void AplicaDanoACouraca(CartaDaCena _cartaAtacante, CartaDaCena _defende)
     {
-        foreach (Ataque ataque in _ataca.listaAtaque)
+        foreach (Ataque ataque in _cartaAtacante.listaAtaque)
         {
-            if (ataque.GetAtaqueAtivado() == true && ataque.ignoraCouraca == true)
+            if (ataque.GetAtaqueAtivado() == true && _cartaAtacante.aplicaEfeitoDoAtaque.GetPerfuraCouraca() == true)
             {
-                controleDeDano.ChecaEspecie(_ataca, _defende);
+                controleDeDano.ChecaEspecie(_cartaAtacante, _defende);
 
-                Debug.Log($"A carta : {_ataca.dados.nome} seu Ataque: {ataque.nome} ignora couraça e aplica dano direto a vida da criatura oponente");
+                Debug.Log($"A carta : {_cartaAtacante.dados.nome} seu Ataque: {ataque.nome} ignora couraça e aplica dano direto a vida da criatura oponente");
 
                 break;
             }
@@ -27,7 +25,7 @@ public class VerificaCouraca : MonoBehaviour
 
         if (_defende.dados.couracaAtual <= 0)
         {
-            controleDeDano.ChecaEspecie(_ataca, _defende); // SEM COURAÇA O DANO É DIRETO NA VIDA
+            controleDeDano.ChecaEspecie(_cartaAtacante, _defende); // SEM COURAÇA O DANO É DIRETO NA VIDA
 
             Debug.Log($"A carta : {_defende.dados.nome} não possuí mais couraça");
         }
@@ -53,8 +51,5 @@ public class VerificaCouraca : MonoBehaviour
 
             _defende.uiCarta.AtualizarUI(_defende.dados);
         }
-        
-
-        //verificaDanoPorReacao.DanoPorReacao(_ataca,_defende);
     }
 }

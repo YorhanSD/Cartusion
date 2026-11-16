@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ControlaTurnos : MonoBehaviour
 {
     public bool turnoOponente;
+    public int tempoNocaute;
 
     IA_Oponente iaOponente;
     SistemaCombate sistemaDeCombate;
@@ -120,6 +121,8 @@ public class ControlaTurnos : MonoBehaviour
 
         ResetaMovimentoDasCartas();
 
+        TiraOsEfeitosDosAtaques();
+
         VerificaEfeitosDosAtaques();
     }
     
@@ -134,6 +137,8 @@ public class ControlaTurnos : MonoBehaviour
         Cursor.visible = true;
 
         ResetaMovimentoDasCartas();
+
+        TiraOsEfeitosDosAtaques();
 
         VerificaEfeitosDosAtaques();
     }
@@ -187,14 +192,33 @@ public class ControlaTurnos : MonoBehaviour
         aplicaEfeitosDoTurnoSeguinte.AplicaQueimadura();
         aplicaEfeitosDoTurnoSeguinte.AplicaSangramento();
     }
+    public void TiraOsEfeitosDosAtaques()
+    {
+        foreach (CartaDaCena cartaCena in bancoCartas.geralCartaCenaLista)
+        {
+            if(cartaCena.aplicaEfeitoDoAtaque.GetNocauteada() == true)
+            {
+                cartaCena.aplicaEfeitoDoAtaque.RemoveTempoNocauteada();
+
+                break;
+            }
+
+            if (cartaCena.aplicaEfeitoDoAtaque.GetRepelido() == true)
+            {
+                cartaCena.aplicaEfeitoDoAtaque.SetRepelido(false);
+
+                break;
+            }
+        }
+    }
     public void ResetaMovimentoDasCartas()
     {
         foreach(CartaDaCena cartaCena in bancoCartas.geralCartaCenaLista)
         {
-            if (cartaCena != null) 
+            if (cartaCena != null && cartaCena.aplicaEfeitoDoAtaque.GetNocauteada() == false) 
             {
-                cartaCena.SetMoveuSe(false);
-                cartaCena.SetPodeAtacar(true);
+                cartaCena.estado.SetMoveuSe(false);
+                cartaCena.estado.SetPodeAtacar(true);
             }
         }
     }

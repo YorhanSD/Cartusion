@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,14 +9,17 @@ public class Baralho : MonoBehaviour
 {
     //LISTAS EXCLUSIVAS PARA CARTAS CLONES
     public List<CartaDaCena> deckJogador = new List<CartaDaCena>();
+
     [SerializeField] private List<CartaDaCena> cenaTemp = new List<CartaDaCena>();
     [SerializeField] private List<CartaDaCena> bancoDeCartasSelecionadas = new List<CartaDaCena>();
     [SerializeField] private List<CartaOriginal> dadosTemp = new List<CartaOriginal>();
+
 
     [SerializeField] UICard uiPrefab;
     [SerializeField] Transform uiParent;
 
     BancoCards bancoCartas;
+    BancoDeAtaques bancoDeAtaques;
 
     public Canvas canvas;
 
@@ -28,6 +32,7 @@ public class Baralho : MonoBehaviour
     {
         salvaJogoPC = GetComponent<SalvaJogoPC>();
         bancoCartas = GetComponent<BancoCards>();
+        bancoDeAtaques = GetComponent<BancoDeAtaques>();
         FiltraCartas();
     }
 
@@ -76,6 +81,19 @@ public class Baralho : MonoBehaviour
 
         bancoCartas.geralCartaCenaLista.Add(cartaClone);
         bancoCartas.geralCartaRuntimeLista.Add(cartaRuntime);
+
+        for (int i = 0; i < 2; i++)
+        {
+            bancoDeAtaques.contaAtaqueID++;
+
+            cartaClone.listaAtaque[i].id = bancoDeAtaques.contaAtaqueID;
+
+            bancoDeAtaques.geralAtaqueLista.Add(cartaClone.listaAtaque[i]);
+            //Debug.Log("Ataque adicionado com sucesso !");
+            //Debug.Log("ID do ataque : " + cartaClone.listaAtaque[i].id);
+            //Debug.Log("Nome do ataque : " + cartaClone.listaAtaque[i].nome);
+        }
+
         deckJogador.Add(cartaClone);
 
         cartaClone.transform.localPosition = Vector3.zero;

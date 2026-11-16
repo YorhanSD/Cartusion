@@ -36,7 +36,7 @@ public class IA_Oponente : MonoBehaviour
             if (carta == null)
                 continue;
 
-            if (carta.GetPodeAtacar() == false)
+            if (carta.estado.GetPodeAtacar() == false)
                 continue;
 
             Casa casa = ia_MapeamentoDeCases.listaCase.Find( c => c.GetIDCartaOcupante() == carta.dados.ID);
@@ -56,7 +56,7 @@ public class IA_Oponente : MonoBehaviour
             if (carta == null)
                 continue;
 
-            if (carta.GetMoveuSe() == true)
+            if (carta.estado.GetMoveuSe() == true)
                 continue;
 
             Casa casa = ia_MapeamentoDeCases.listaCase.Find(

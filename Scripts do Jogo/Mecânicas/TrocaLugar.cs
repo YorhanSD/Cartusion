@@ -20,22 +20,22 @@ public class TrocaLugar : MonoBehaviour
 
     public void VerificaPosicaoDasCartas(CartaDaCena _retaguarda, CartaDaCena _vanguarda)
     {
-        Debug.Log($"A carta de retaguarda é : {_retaguarda.dados.nome}");
-        Debug.Log($"A carta da vanguarda é : {_vanguarda.dados.nome}");
+        //Debug.Log($"A carta de retaguarda é : {_retaguarda.dados.nome}");
+        //Debug.Log($"A carta da vanguarda é : {_vanguarda.dados.nome}");
 
-        if (entraESaiCartas.GetEncostouEmOutraCarta() == true && _retaguarda.GetEstaAtivada() == true)
+        if (entraESaiCartas.GetEncostouEmOutraCarta() == true && _retaguarda.estado.GetEstaAtivada() == true)
         {
             foreach (Casa casa in ia_MapeamentoDeCases.listaCase)
             {
-                if (casa.GetIDCartaOcupante() == _retaguarda.dados.ID)
-                    casaRetaguarda = casa;
+                //if (casa.GetIDCartaOcupante() == _retaguarda.dados.ID)
+                    //casaRetaguarda = casa;
 
-                if (casa.GetIDCartaOcupante() == _vanguarda.dados.ID)
-                    casaVanguarda = casa;
+                //if (casa.GetIDCartaOcupante() == _vanguarda.dados.ID)
+                    //casaVanguarda = casa;
             }
 
-            if (casaRetaguarda == null || casaVanguarda == null)
-                return;
+            //if (casaRetaguarda == null || casaVanguarda == null)
+                //return;
 
             //casaVanguarda.CartaSai(_vanguarda);
 

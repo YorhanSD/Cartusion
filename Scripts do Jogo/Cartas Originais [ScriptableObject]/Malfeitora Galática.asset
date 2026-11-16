@@ -19,9 +19,9 @@ MonoBehaviour:
   especieRecessiva: 0
   nome: "Malfeitora Gal\xE1tica"
   nomeAtaqueSelecionado: 
-  vida: 60
-  vidaMaxima: 60
-  ataque: 80
+  vida: 50
+  vidaMaxima: 50
+  ataque: 90
   couracaAtual: 20
   couracaMaxima: 20
   reacao: 40

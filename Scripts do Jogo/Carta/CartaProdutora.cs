@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardProdutor : MonoBehaviour
+public class CartaProdutora : MonoBehaviour
 {
     public float tempoProducao = 30;
     public TextMeshProUGUI textoProducao;

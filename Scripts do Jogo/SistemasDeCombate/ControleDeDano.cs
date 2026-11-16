@@ -30,7 +30,15 @@ public class ControleDeDano : MonoBehaviour
 
     public void ChecaEspecie(CartaDaCena ataca, CartaDaCena defende)
     {
-        if (ataca.dados.especieSelecionada == "Celestial" && defende.dados.especieSelecionada == "Tenebroso")
+        if (ataca.listaAtaque[0].GetAtaqueAtivado()) //ATAQUE NEUTRO
+        {
+            defende.dados.vidaAtual -= ataca.dados.ataqueAtual;
+
+            CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual);
+
+            return;
+        }
+        else if (ataca.listaAtaque[1].especie == "Celestial" && defende.dados.especieSelecionada == "Tenebroso")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual * 2; //Multiplica o Dano por 2
 
@@ -41,7 +49,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual * 2);
         }
-        else if (ataca.dados.especieSelecionada == "Tenebroso" && defende.dados.especieSelecionada == "Celestial")
+        else if (ataca.listaAtaque[1].especie == "Tenebroso" && defende.dados.especieSelecionada == "Celestial")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual / 2; //Divide o Dano por 2
 
@@ -52,7 +60,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual / 2);
         }
-        else if (ataca.dados.especieSelecionada == "Extinto" && defende.dados.especieSelecionada == "Celestial")
+        else if (ataca.listaAtaque[1].especie == "Extinto" && defende.dados.especieSelecionada == "Celestial")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual * 2; //Multiplica o Dano por 2
 
@@ -63,7 +71,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual * 2);
         }
-        else if (ataca.dados.especieSelecionada == "Celestial" && defende.dados.especieSelecionada == "Extinto")
+        else if (ataca.listaAtaque[1].especie == "Celestial" && defende.dados.especieSelecionada == "Extinto")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual / 2; //Divide o Dano por 2
 
@@ -74,7 +82,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual / 2);
         }
-        else if (ataca.dados.especieSelecionada == "Espacial" && defende.dados.especieSelecionada == "Extinto")
+        else if (ataca.listaAtaque[1].especie == "Espacial" && defende.dados.especieSelecionada == "Extinto")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual * 2; //Multiplica o Dano por 2
 
@@ -85,7 +93,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual * 2);
         }
-        else if (ataca.dados.especieSelecionada == "Extinto" && defende.dados.especieSelecionada == "Celestial")
+        else if (ataca.listaAtaque[1].especie == "Extinto" && defende.dados.especieSelecionada == "Celestial")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual / 2; //Divide o Dano por 2
 
@@ -96,7 +104,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual / 2);
         }
-        else if (ataca.dados.especieSelecionada == "Tenebroso" && defende.dados.especieSelecionada == "Espacial")
+        else if (ataca.listaAtaque[1].especie == "Tenebroso" && defende.dados.especieSelecionada == "Espacial")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual * 2; //Multiplica o Dano por 2
 
@@ -107,7 +115,7 @@ public class ControleDeDano : MonoBehaviour
 
             CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual * 2);
         }
-        else if (ataca.dados.especieSelecionada == "Espacial" && defende.dados.especieSelecionada == "Tenebroso")
+        else if (ataca.listaAtaque[1].especie == "Espacial" && defende.dados.especieSelecionada == "Tenebroso")
         {
             defende.dados.vidaAtual -= ataca.dados.ataqueAtual / 2; //Divide o Dano por 2
 
@@ -120,9 +128,13 @@ public class ControleDeDano : MonoBehaviour
         }
         else
         {
-            defende.dados.vidaAtual -= ataca.dados.ataqueAtual;
-            CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual);
+            
+                defende.dados.vidaAtual -= ataca.dados.ataqueAtual;
+                CriaPainelDano(defende.gameObject.transform, ataca.dados.ataqueAtual);
+            
         }
+
+        defende.estado.SetCartaSendoAtacada(false);
     }
 
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AplicaEfeitosDoTurnoSeguinte : MonoBehaviour
 {
+
     IA_MapeamentoDeCases ia_MapeamentoDeCases;
     BancoCards bancoCards;
     SistemaCombate sistemaCombate;
@@ -17,10 +18,9 @@ public class AplicaEfeitosDoTurnoSeguinte : MonoBehaviour
     {
         foreach (CartaDaCena _carta in bancoCards.geralCartaCenaLista)
         {
-            if (_carta.aplicaEfeitoDoAtaque.GetNocauteada())
+            if (_carta.aplicaEfeitoDoAtaque.GetNocauteada() == true)
             {
-                _carta.SetMoveuSe(true);
-                _carta.SetPodeAtacar(false);
+                //CONTROLE DE TURNOS É O RESPONSÁVEL POR RESETAR O MOVIMENTO
 
                 controleDeDano.CriaPainelEfeitoDoAtaque(_carta.gameObject.transform, "Noucateado");
             }
@@ -34,60 +34,96 @@ public class AplicaEfeitosDoTurnoSeguinte : MonoBehaviour
             {
                 _carta.dados.ataqueAtual -= 10;
                 _carta.dados.reacao -= 10;
-                                
-                controleDeDano.CriaPainelEfeitoDoAtaque(_carta.gameObject.transform, "Doente");
 
-                _carta.uiCarta.AtualizarUI(_carta.dados); // Atualiza UI da Carta
+                controleDeDano.CriaPainelEfeitoDoAtaque(_carta.gameObject.transform, "Doente");
             }
+
+            _carta.uiCarta.AtualizarUI(_carta.dados); // Atualiza UI da Carta
         }
     }
     public void AplicaQueimadura()
     {
-        foreach (CartaDaCena _carta in bancoCards.geralCartaCenaLista)
+        if (bancoCards == null) return;
+
+        for (int i = bancoCards.geralCartaCenaLista.Count - 1; i >= 0; i--)
         {
-            if (_carta.aplicaEfeitoDoAtaque.GetQueimando())
+            CartaDaCena carta = bancoCards.geralCartaCenaLista[i];
+
+            if (carta == null)
+                continue;
+
+            if (carta.aplicaEfeitoDoAtaque.GetQueimando())
             {
-                if (_carta.dados.couracaAtual > 0)
+                if (carta.dados.couracaAtual > 0)
                 {
-                    if (_carta.dados.vidaAtual > 0)
+                    if (carta.dados.vidaAtual > 0)
                     {
-                        _carta.dados.couracaAtual -= 10;
+                        carta.dados.couracaAtual -= 20;
+
+                        controleDeDano.CriaPainelDano(carta.transform, 20);
+
+                        controleDeDano.CriaPainelEfeitoDoAtaque(carta.transform, "Queimando");
                     }
                 }
                 else
                 {
-                    if (_carta.dados.vidaAtual > 0)
+                    if (carta.dados.vidaAtual > 0)
                     {
-                        _carta.dados.vidaAtual -= 10;
+                        carta.dados.vidaAtual -= 10;
 
-                        controleDeDano.CriaPainelDano(_carta.gameObject.transform, 10);
-                        controleDeDano.CriaPainelEfeitoDoAtaque(_carta.gameObject.transform, "Queimadura");
+                        controleDeDano.CriaPainelDano(carta.transform, 10);
+
+                        controleDeDano.CriaPainelEfeitoDoAtaque(carta.transform, "Queimando");
+
+                        if (carta.dados.vidaAtual <= 0)
+                        {
+                            sistemaCombate.VerificaMortePorEfeito(carta);
+
+                            continue;
+                        }
                     }
                 }
+            }
 
-                _carta.uiCarta.AtualizarUI(_carta.dados);
-
-                sistemaCombate.VerificaMortePorEfeito(_carta); // Verifica se a carta morreu
+            if (carta != null && carta.uiCarta != null)
+            {
+                carta.uiCarta.AtualizarUI(carta.dados);
             }
         }
+
     }
     public void AplicaSangramento()
     {
-        foreach (CartaDaCena _carta in bancoCards.geralCartaCenaLista)
-        {
-            if (_carta.aplicaEfeitoDoAtaque.GetSangrando())
-            {
-                if (_carta.dados.vidaAtual > 0)
-                {
-                    _carta.dados.vidaAtual -= 20;
+        if (bancoCards == null) return;
 
-                    controleDeDano.CriaPainelDano(_carta.gameObject.transform, 20);
-                    controleDeDano.CriaPainelEfeitoDoAtaque(_carta.gameObject.transform, "Sangrando");
+        for (int i = bancoCards.geralCartaCenaLista.Count - 1; i >= 0; i--)
+        {
+            CartaDaCena carta = bancoCards.geralCartaCenaLista[i];
+
+            if (carta == null)
+                continue;
+
+            if (carta.aplicaEfeitoDoAtaque.GetSangrando() && carta != null)
+            {
+                if (carta.dados.vidaAtual > 0 && carta != null)
+                {
+                    carta.dados.vidaAtual -= 20;
+
+                    controleDeDano.CriaPainelDano(carta.gameObject.transform, 20);
+                    controleDeDano.CriaPainelEfeitoDoAtaque(carta.gameObject.transform, "Sangrando");
+
+                    if (carta.dados.vidaAtual <= 0)
+                    {
+                        sistemaCombate.VerificaMortePorEfeito(carta); // Verifica se a carta morreu
+                        continue;
+                    }
                 }
             }
-            _carta.uiCarta.AtualizarUI(_carta.dados);
 
-            sistemaCombate.VerificaMortePorEfeito(_carta); // Verifica se a carta morreu
+            if (carta != null && carta.uiCarta != null)
+            {
+                carta.uiCarta.AtualizarUI(carta.dados);
+            }
         }
     }
 }

@@ -10,6 +10,8 @@ public class Casa : MonoBehaviour
 
     private Coroutine coroutineEntrada;
 
+    IA_MapeamentoDeCases ia_MapeamentoDeCases;
+
     [SerializeField] private bool cartaSobreCasa;
     [SerializeField] private bool estaBloqueado = false;
     [SerializeField] private bool caseOcupadoPeloJogador = false;
@@ -19,11 +21,22 @@ public class Casa : MonoBehaviour
     [SerializeField] private int idCartaOcupante = -1;
     [SerializeField] private int posicaoCasa = 0;
     [SerializeField] private int ultimoID;
+    [SerializeField] private bool alfandega = false;
+
 
     [Obsolete]
     public void Start()
     {
+        ia_MapeamentoDeCases = FindObjectOfType<IA_MapeamentoDeCases>();
         entraESaiCartas = FindObjectOfType<EntraESaiCartas>();
+    }
+    public void SetBloquearSaida(bool _alfandega)
+    {
+        alfandega = _alfandega;
+    }
+    public bool GetBloquearSaida()
+    {
+        return alfandega;
     }
     public void SetUltimoID(int _ID)
     {
@@ -93,6 +106,7 @@ public class Casa : MonoBehaviour
             CartaDaCena _carta = carta.GetComponent<CartaDaCena>();
 
             cartaSobreCasa = true;
+
             CartaEstaSobreACasa(_carta);
         }
     }
@@ -102,12 +116,19 @@ public class Casa : MonoBehaviour
         {
             CartaDaCena _carta = carta.GetComponent<CartaDaCena>();
 
-            //entraESaiCartas.RecebeCasaPassadaAtacante(this.GetPosicaoCasa());
+            //Debug.Log(
+                //$"OnTriggerExit2D | Casa: {GetPosicaoCasa()} | " +
+                //$"Carta: {_carta.dados.nome} | " +
+                //$"ID: {_carta.dados.ID} | " +
+                //$"Atacando: {_carta.estado.GetCartaEstaAtacando()} | " +
+                //$"Sendo atacada: {_carta.estado.GetCartaEstaSendoAtacada()} | " +
+                //$"Avançando: {_carta.estado.GetCartaEstaAvancando()}"
+            //);
 
-            if (_carta.GetCartaMorte() == true)
+            if (_carta.estado.GetCartaEstaSendoAtacada() == true)
                 return;
 
-            if (_carta.GetCartaEstaAtacando() == true)
+            if (_carta.estado.GetCartaEstaAtacando() == true)
                 return;
 
             CartaSai(_carta);
@@ -116,11 +137,11 @@ public class Casa : MonoBehaviour
 
     public void CartaEstaSobreACasa(CartaDaCena _cartaEntrando)
     {
-        if (_cartaEntrando.CompareTag("Carta Oponente")) 
+        if (_cartaEntrando.CompareTag("Carta Oponente"))
         {
             if (GetIDCartaOcupante() != -1 && GetCaseOcupadoJogador() == true)//Quando uma carta do oponente entra na casa e já tem uma carta do jogador então:
             {
-                _cartaEntrando.SetCartaEstaAtacando(true);
+                _cartaEntrando.estado.SetCartaEstaAtacando(true);
 
                 entraESaiCartas.RecebeCasasAtuais(this.GetIDCartaOcupante(), _cartaEntrando.dados.ID);
             }
@@ -131,25 +152,25 @@ public class Casa : MonoBehaviour
             }
 
         }
-        else if (_cartaEntrando.CompareTag("Carta Jogador")) 
+        else if (_cartaEntrando.CompareTag("Carta Jogador"))
         {
             if (GetIDCartaOcupante() != -1 && GetCaseOcupadoOponente() == true)//Quando uma carta do jogador entra na casa e já tem uma carta do oponente então:
             {
-                _cartaEntrando.SetCartaEstaAtacando(true);
+                _cartaEntrando.estado.SetCartaEstaAtacando(true);
 
                 entraESaiCartas.RecebeCasasAtuais(this.GetIDCartaOcupante(), _cartaEntrando.dados.ID);
             }
-           
+
             if (GetCaseOcupadoJogador()) //Troca
             {
-                entraESaiCartas.ChamaTroca(this.GetIDCartaOcupante(), _cartaEntrando);
+                //entraESaiCartas.ChamaTroca(this.GetIDCartaOcupante(), _cartaEntrando);
             }
 
             if (GetEstaBloqueado() == false && GetCaseOcupadoOponente() == false && GetCaseOcupadoJogador() == false)
             {
                 if (coroutineEntrada == null)
                 {
-                  coroutineEntrada = StartCoroutine(CartaEspera(_cartaEntrando));
+                    coroutineEntrada = StartCoroutine(CartaEspera(_cartaEntrando));
                 }
             }
         }
@@ -180,7 +201,8 @@ public class Casa : MonoBehaviour
 
     public void CartaEntra(CartaDaCena _cartaEntrando, Transform _casaTransfrom)
     {
-        _cartaEntrando.SetEstaAtivada(true); // CARTA ENTROU, ENTÃO ESTÁ ATIVA
+        _cartaEntrando.estado.SetEstaAtivada(true); // CARTA ENTROU, ENTÃO ESTÁ ATIVA
+        _cartaEntrando.estado.SetCartaEstaAvancando(false); //CARTA CHEGOU AO DESTINO, NÃO ESTÁ MAIS AVANÇANDO
 
         CasaDaCarta info = _cartaEntrando.casaDaCarta;
 
@@ -199,28 +221,56 @@ public class Casa : MonoBehaviour
             SetCaseOcupadoOponente(true);
         }
 
+        //Debug.Log(
+    //$"CartaEntra | Carta: {_cartaEntrando.dados.nome} | " +
+            //$"ID: {_cartaEntrando.dados.ID} | " +
+            //$"Casa destino: {GetPosicaoCasa()} | " +
+            //$"Ocupante anterior: {GetIDCartaOcupante()}"
+        //);
+
         SetIDCartaOcupante(_cartaEntrando.dados.ID);
 
-        entraESaiCartas.MovimentaCartaParaCasa(_cartaEntrando,_casaTransfrom);
+        entraESaiCartas.MovimentaCartaParaCasa(_cartaEntrando, _casaTransfrom);
+    }
+    public void Lockdown()
+    {
+        SetBloquearSaida(true);
+
+        StartCoroutine(bloqueioTemporario());
+    }
+    IEnumerator bloqueioTemporario()
+    {
+        yield return new WaitForSeconds(1f);
+
+        SetBloquearSaida(false);
     }
     public void CartaSai(CartaDaCena _cartaSaindo)
     {
-        if (_cartaSaindo.GetEstaAtivada())// SE ELA ESTÁ ATIVA É PORQUE ENTROU
+        if (GetBloquearSaida() == false)
         {
-            //SE A CARTA SAI, ELA DEIXA DE SER ATIVA
+            if (_cartaSaindo == null)
+                return;
+
+            //Debug.Log(
+            //$"CartaSai | Casa: {GetPosicaoCasa()} | " +
+            // $"Carta: {_cartaSaindo.dados.nome} | " +
+            // $"ID da carta: {_cartaSaindo.dados.ID} | " +
+            // $"ID ocupante: {GetIDCartaOcupante()}"
+            // );
+
+            if (_cartaSaindo.estado.GetCartaEstaSendoAtacada() == true)
+                return;
 
             if (GetIDCartaOcupante() != _cartaSaindo.dados.ID)
-            {
                 return;
-            }
 
-            DesocuparCasa(_cartaSaindo);
+            DesocuparCasa(_cartaSaindo); //SE A CARTA SAI, ELA DEIXA DE SER ATIVA
         }
     }
 
     public void DesocuparCasa(CartaDaCena _cartaDestruida)
     {
-        _cartaDestruida.SetEstaAtivada(false);
+        _cartaDestruida.estado.SetEstaAtivada(false);
 
         if (_cartaDestruida.gameObject.CompareTag("Carta Jogador"))
         {
@@ -232,13 +282,12 @@ public class Casa : MonoBehaviour
             SetCaseOcupadoOponente(false);
         }
 
+        cartaSobreCasa = false;
+
         SetIDCartaOcupante(-1);
 
-        //GravaUltimoID(_cartaDestruida.dados.ID);
-    }
-
-    public void GravaUltimoID(int _ID)
-    {
-        //SetUltimoID(_ID);
+        Debug.Log("CARTA : " + _cartaDestruida.dados.nome);
+        Debug.Log("ID DA CARTA : " + _cartaDestruida.dados.ID);
+        Debug.Log("DESOCUPOU A CASA : " + GetPosicaoCasa());
     }
 }

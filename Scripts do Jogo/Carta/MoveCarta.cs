@@ -75,11 +75,14 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         _canvasGroup.blocksRaycasts = false;
 
         SetSoltouCarta(false);
+
         SetSelecinouCarta(true);
 
         entraESaiCartas.SetVerificaSeSoltouCarta(GetSoltouCarta());
-        ataqueCartasControle.RecebeInformacoesDaCarta(cartaDaCena);
-        ataqueCartasControle.TelaAtaques();
+
+        //ataqueCartasControle.RecebeInformacoesDaCarta(cartaDaCena);
+
+        //ataqueCartasControle.TelaAtaques();
     }
    
     public void OnEndDrag(PointerEventData eventData)
@@ -88,6 +91,7 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         _canvasGroup.blocksRaycasts = true;
 
         SetSoltouCarta(true);
+
         SetSelecinouCarta(false);
 
         entraESaiCartas.SetVerificaSeSoltouCarta(GetSoltouCarta());
@@ -100,14 +104,25 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         if (canvas == null || cartaDaCena == null)
             return;
 
-        if (sistemaCombate.travarJogador == false && cartaDaCena.GetMoveuSe() == false)
+        if (sistemaCombate.travarJogador == false && cartaDaCena.estado.GetMoveuSe() == false)
         {
             _transform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         }
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log("Clicou");
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (cartaDaCena == null)
+                return;
+
+            if (sistemaCombate.travarJogador)
+                return;
+
+            ataqueCartasControle.RecebeInformacoesDaCarta(cartaDaCena);
+
+            ataqueCartasControle.TelaAtaques();
+        }
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -120,6 +135,7 @@ public class MoveCarta : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
         if(collision.CompareTag("Carta Jogador") && GetSelecinouCarta() == true)
         {
             SetEncostouOutraCarta(true);
+
             entraESaiCartas.SetEncostouEmOutraCarta(GetEncostouOutraCarta());
 
             cartaEncostada = collision.GetComponent<CartaDaCena>();

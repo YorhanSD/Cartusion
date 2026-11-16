@@ -8,6 +8,7 @@ public class Ataque : ScriptableObject
     public string nome;
 
     [TextArea(7, 7)]
+
     public string descricao;
 
     public string especie;
@@ -28,7 +29,7 @@ public class Ataque : ScriptableObject
 
     public bool repulsao;
 
-    public bool dispercao; //dispersar
+    public bool avancar;
 
     private bool ataqueAtivado;
 

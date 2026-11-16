@@ -7,11 +7,13 @@ public class CasaTemporaria : MonoBehaviour
 
     public IA_MapeamentoDeCases ia_MapeamentoDeCases;
     public EntraESaiCartas entraESaiCartas;
+    public AtaquesDeMovimento ataquesDeMovimento;
 
     void Start()
     {
         entraESaiCartas = GetComponent<EntraESaiCartas>();
         ia_MapeamentoDeCases = GetComponent<IA_MapeamentoDeCases>();
+        ataquesDeMovimento = GetComponent<AtaquesDeMovimento>();
     }
     public void CasaDoDefensor(Casa _casaDefensor)
     {
@@ -42,7 +44,7 @@ public class CasaTemporaria : MonoBehaviour
     {
         return printCasaAtacante;
     }
-
+ 
     public void ConfereOResultadoDaBatalha(CartaDaCena _ataca, CartaDaCena _defende)
     {
         if (_ataca == null && _defende == null)
@@ -54,20 +56,9 @@ public class CasaTemporaria : MonoBehaviour
 
             Debug.Log($"{_ataca.dados.nome} não conseguiu conquistar a casa de {_defende.dados.nome}");
 
-            if(_defende.aplicaEfeitoDoAtaque.GetRepelido() == true && _defende.casaDaCarta.GetCasaAntiga().GetIDCartaOcupante() == -1)
-            {
-                Casa casaRetorno = _defende.casaDaCarta.GetCasaAntiga();
+            ataquesDeMovimento.VerificaAvancar(_ataca, _defende);
 
-                if (casaRetorno == null)
-                {
-                    Debug.LogError("Carta não possui casa antiga.");
-                    return;
-                }
-
-                casaRetorno.CartaEntra(_defende, casaRetorno.transform);
-
-                Debug.Log($"A carta : {_defende.dados.nome} foi repelida até sua casa antiga !");
-            }
+            ataquesDeMovimento.VerificarRepelir(_ataca, _defende);
         }
         else
         {
@@ -93,9 +84,20 @@ public class CasaTemporaria : MonoBehaviour
     public void DefensorMorreu(CartaDaCena _defende)
     {
         GetCasaDefensor().CartaSai(_defende);
+
+        Debug.Log($"Carta Defensor : {_defende.dados.nome} Morreu");
     }
-    void Retorno(CartaDaCena _ataca)
+    
+    public void Retorno(CartaDaCena _ataca)
     {
+        Casa casaRetorno = _ataca.casaDaCarta.GetCasaAtual(); //CASA DE RETORNO DO ATAQUE
+
+        if (casaRetorno == null)
+        {
+            Debug.LogError("Carta não possui casa atual.");
+            return;
+        }
+
         if (_ataca == null)
         {
             Debug.Log("A carta de retorno é nula !");
@@ -114,11 +116,20 @@ public class CasaTemporaria : MonoBehaviour
             return;
         }
 
-        Casa casaRetorno = _ataca.casaDaCarta.GetCasaAtual();
-
-        if (casaRetorno == null)
+        if(_ataca.estado.GetCartaMorreu() == true)
         {
-            Debug.LogError("Carta não possui casa atual.");
+            return;
+        }
+
+        
+        if(_ataca.estado.GetCartaEstaAvancando() == true)
+        {
+            return;
+        }
+        
+
+        if(_ataca.estado.GetCartaEstaSendoAtacada() == true)
+        {
             return;
         }
 
@@ -130,8 +141,6 @@ public class CasaTemporaria : MonoBehaviour
     {
         if (printCasaAtacante == null && printCasaDefensor == null)
             return;
-
-        //GetCasaAtacante().CartaSai(_ataca);
 
         Debug.Log($"{_ataca.dados.nome} sai de sua casa com a posição : {printCasaAtacante.GetPosicaoCasa()}");
 

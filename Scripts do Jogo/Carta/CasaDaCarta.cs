@@ -3,8 +3,9 @@ using UnityEngine;
 public class CasaDaCarta : MonoBehaviour
 {
     public CartaDaCena estaCarta;
+
     private Casa casaAntiga;
-    private Casa casaAtual;
+    private Casa casaAtual; //CASA QUE A CARTA SAI POR UM CURDO PERIODO DE TEMPO, MAS VOLTA LOGO DEPOIS.
     
     void Start()
     {

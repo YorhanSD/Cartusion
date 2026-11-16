@@ -19,7 +19,9 @@ MonoBehaviour:
   imuneReacao: 0
   ignoraCouraca: 0
   nocauteia: 0
-  sangramento: 0
+  sangramento: 1
   queimadura: 0
   removeCouraca: 0
   virose: 0
+  repulsao: 0
+  avancar: 0
